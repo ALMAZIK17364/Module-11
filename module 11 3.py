@@ -1,9 +1,23 @@
 import inspect
 
 def introspection_info(obj):
-    obj_atributes = {'type': type(obj),'attributes' : inspect.getmembers(obj), 'module' : inspect.getmodule(obj)}
+    attributes = []
+    methods = []
+    
+    for attr in dir(obj):
+        if callable(getattr(obj, attr)):
+            methods.append(attr)
+        else:
+            attributes.append(attr)
 
-    return obj_atributes
+    obj_attributes = {
+        'type': type(obj),
+        'attributes': attributes,
+        'methods': methods,
+        'module': inspect.getmodule(obj)
+    }
+
+    return obj_attributes
 
 number_info = introspection_info(42)
 print(number_info)
